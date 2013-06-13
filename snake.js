@@ -8,9 +8,8 @@ Snake = function(){
     this.speed = 3;
     this.direction = 0;
     this.dead = false;
+    this.rotation_speed = Math.PI / 64;
 };
-
-Snake.ROTATION_SPEED = Math.PI / 64;
 
 Snake.prototype.draw = function(ctx){
     if (this.dead){
@@ -66,7 +65,7 @@ Snake.prototype.move = function(){
         if (pix[4*i+3] !== 0){
             var x = top_x + (i % check_size);
             var y = top_y + Math.floor(i/check_size);
-            if ((is_in_circle(x, y, this.x, this.y, this.radius + 1) ||
+            if ((is_in_circle(x, y, this.x - 0.5, this.y - 0.5, this.radius + 1) ||
                 is_in_line(x, y, this.x, this.y, this.old_x, this.old_y)) &&
                 !is_in_circle(x, y, this.old_x - 0.5, this.old_y - 0.5, this.radius + 1)) {
                 console.log([x, y, this.old_x, this.old_y, this.x, this.y, top_x, top_y]);
@@ -81,9 +80,9 @@ Snake.prototype.move = function(){
 };
 
 Snake.prototype.turnRight = function(){
-    this.direction -= Snake.ROTATION_SPEED;
+    this.direction -= this.rotation_speed;
 };
 Snake.prototype.turnLeft = function(){
-    this.direction += Snake.ROTATION_SPEED;
+    this.direction += this.rotation_speed;
 };
 

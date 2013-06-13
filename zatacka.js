@@ -41,9 +41,42 @@ Player = function(){
     this.score = 0;
 }
 
+var Config = {
+    attrs: {
+        players: 2,
+        speed: 3,
+        size: 3,
+        rotation: 3
+    },
+
+    readConfig: function(){
+        for (attr in this.attrs){
+            this.attrs[attr] = parseInt($('input[name='+attr+']:checked').val());
+        }
+    },
+
+    updateControls: function(){
+        for (attr in this.attrs){
+            $('input[name='+attr+'][value=' + this.attrs[attr] + ']').prop('checked', true);
+        }
+    },
+
+    get: function(attr){
+        if (attr === 'rotation'){
+            return this.get('speed') * this.attrs.rotation * Math.PI / 512;
+        }
+        else if (attr === 'speed'){
+            return this.attrs.speed + 0.5;
+        }
+        else {
+            return this.attrs[attr];
+        }
+    }
+}
+
 var preparePlayers = function(){
     players = [];
-    for (var i=0; i<3; i++){
+    for (var i=0; i<Config.get('players'); i++){
         players.push(new Player());
     }
 }
@@ -52,6 +85,10 @@ var prepareSnakes = function() {
     snakes = [];
     for(var i=0; i<players.length; i++){
         snakes.push(new Snake());
+        snakes[i].radius = Config.get('size');
+        snakes[i].diameter = snakes[i].radius * 2;
+        snakes[i].speed = Config.get('speed');
+        snakes[i].rotation_speed = Config.get('rotation');
     }
     snakes_alive = snakes.length;
 
@@ -100,15 +137,16 @@ var updateGame = function(){
 };
 
 var drawGame = function(){
-    for (var i=0; i<snakes.length; i++){
-        snakes[i].draw(ctx)
-    };
-    $("#score1").html(players[0].score);
-    $("#score2").html(players[1].score);
-    if (players.length > 2)
-        $("#score3").html(players[2].score);
-    if (players.length > 3)
-        $("#score4").html(players[3].score);
+    if(snakes){
+        for (var i=0; i<snakes.length; i++){
+            snakes[i].draw(ctx)
+        };
+    }
+
+    for (var i=0; i<4; i++){
+        var text = i < players.length ? players[i].score : '';
+        $("#score"+(i+1)).html(text);
+    }
 };
 
 var mainloop = function() {

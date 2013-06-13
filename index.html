@@ -14,6 +14,51 @@
         }
     </style>
 <body>
+    <div style="float:right; border: solid 3px white; text-align: center">
+        <table>
+            <tr>
+                <td>Players</td>
+                <td></td>
+                <td><input type="radio" name="players" value="2"></td>
+                <td><input type="radio" name="players" value="3"></td>
+                <td><input type="radio" name="players" value="4"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Speed</td>
+                <td><input type="radio" name="speed" value="1"></td>
+                <td><input type="radio" name="speed" value="2"></td>
+                <td><input type="radio" name="speed" value="3"></td>
+                <td><input type="radio" name="speed" value="4"></td>
+                <td><input type="radio" name="speed" value="5"></td>
+                <td><input type="radio" name="speed" value="6"></td>
+                <td><input type="radio" name="speed" value="7"></td>
+                <td><input type="radio" name="speed" value="8"></td>
+            </tr>
+            <tr>
+                <td>Size</td>
+                <td><input type="radio" name="size" value="1"></td>
+                <td><input type="radio" name="size" value="2"></td>
+                <td><input type="radio" name="size" value="3"></td>
+                <td><input type="radio" name="size" value="4"></td>
+                <td><input type="radio" name="size" value="5"></td>
+                <td><input type="radio" name="size" value="6"></td>
+                <td><input type="radio" name="size" value="7"></td>
+                <td><input type="radio" name="size" value="8"></td>
+            </tr>
+            <tr>
+                <td>Rotation</td>
+                <td><input type="radio" name="rotation" value="1"></td>
+                <td><input type="radio" name="rotation" value="2"></td>
+                <td><input type="radio" name="rotation" value="3"></td>
+                <td><input type="radio" name="rotation" value="4"></td>
+                <td><input type="radio" name="rotation" value="5"></td>
+                <td><input type="radio" name="rotation" value="6"></td>
+                <td><input type="radio" name="rotation" value="7"></td>
+                <td><input type="radio" name="rotation" value="8"></td>
+            </tr>
+        </table>
+    </div>
     <div id="content">
         <div style="width: 1000px;">
             <div id="score3" style="float: right;"></div>
@@ -27,6 +72,7 @@
             <div id="score4"></div>
         </div>
     </div>
+
 
 </body>
 
@@ -58,27 +104,26 @@ var snakes;
 var snakes_alive = 0;
 var snake_died = 0;
 
-preparePlayers();
 window.addEventListener('keyup', function(event){Key.onKeyup(event);}, false);
 window.addEventListener('keydown', function(event){Key.onKeydown(event);}, false);
 
 var startAnimation = function(){
-    var animFrame = window.requestAnimationFrame ||
+    var requestAnimFrame = window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame    ||
             window.oRequestAnimationFrame      ||
             window.msRequestAnimationFrame     ||
             null ;
 
-    if ( animFrame !== null ) {
+    if ( requestAnimFrame !== null ) {
 
         var recursiveAnim = function() {
             mainloop();
-            animFrame( recursiveAnim, canvas );
+            requestAnimFrame( recursiveAnim, canvas );
         };
 
         // start the mainloop
-        animFrame( recursiveAnim, canvas );
+        requestAnimFrame( recursiveAnim, canvas );
     } else {
         var ONE_FRAME_TIME = 1000.0 / 60.0 ;
         setInterval( mainloop, ONE_FRAME_TIME );
@@ -88,11 +133,17 @@ var startAnimation = function(){
 
 var startGame = function(){
     clearCanvas();
+    n_players = Config.get('players');
+    Config.readConfig();
+    if (Config.get('players') !== n_players){
+        preparePlayers();
+    }
     prepareSnakes();
 }
 
 $(document).ready(function() {
     startAnimation();
-    startGame();
+    Config.updateControls();
+    preparePlayers();
 });
 </script>
