@@ -32,38 +32,10 @@
 
 <script type="text/javascript" src="jquery-2.0.2.js"></script>
 <script type="text/javascript" src="snake.js"></script>
+<script type="text/javascript" src="zatacka.js"></script>
 
 <script type="text/javascript">
 
-var Key = {
-  _pressed: {},
-
-  LEFT_1: 81, // Q
-  RIGHT_1: 87, // W
-
-  LEFT_2: 37, // left
-  RIGHT_2: 39, // right
-
-  LEFT_3: 86, // v
-  RIGHT_3: 66, // b
-
-  LEFT_4: 221, // ]
-  RIGHT_4: 220, // \
-
-  SPACE: 32,
-
-  isDown: function(keyCode) {
-    return this._pressed[keyCode];
-  },
-
-  onKeydown: function(event) {
-    this._pressed[event.keyCode] = true;
-  },
-
-  onKeyup: function(event) {
-    delete this._pressed[event.keyCode];
-  }
-};
 
 var canvas = $('#main').get(0);
 var ctx = canvas.getContext("2d");
@@ -81,95 +53,12 @@ var clearCanvas = function() {
     ctx.stroke();
 }
 
-Player = function(){
-    this.score = 0;
-}
-
 var players = [];
-
-for (var i=0; i<4; i++){
-    players.push(new Player());
-}
-
 var snakes;
 var snakes_alive = 0;
 var snake_died = 0;
-var prepareGameState = function() {
-    snakes = [];
-    for(var i=0; i<players.length; i++){
-        snakes.push(new Snake());
-    }
-    snakes_alive = snakes.length;
 
-    snakes[1].x = canvas.width - 50;
-    snakes[1].y = canvas.height - 50;
-    snakes[1].direction = Math.PI;
-
-    if (players.length > 2){
-        snakes[2].x = canvas.width - 50;
-        snakes[2].direction = Math.PI;
-    }
-
-    if (players.length > 3){
-        snakes[3].y = canvas.height - 50;
-    }
-}
-
-var updateGame = function(){
-    if (Key.isDown(Key.LEFT_1)) snakes[0].turnRight();
-    if (Key.isDown(Key.RIGHT_1)) snakes[0].turnLeft();
-    if (Key.isDown(Key.LEFT_2)) snakes[1].turnRight();
-    if (Key.isDown(Key.RIGHT_2)) snakes[1].turnLeft();
-    if (players.length > 2){
-        if (Key.isDown(Key.LEFT_3)) snakes[2].turnRight();
-        if (Key.isDown(Key.RIGHT_3)) snakes[2].turnLeft();
-    }
-    if (players.length > 3){
-        if (Key.isDown(Key.LEFT_4)) snakes[3].turnRight();
-        if (Key.isDown(Key.RIGHT_4)) snakes[3].turnLeft();
-    }
-
-    if (snake_died > 0){
-        for (var i=0; i<snakes.length; i++){
-            if (!snakes[i].dead){
-                players[i].score += snake_died;
-            }
-        }
-        snake_died = 0;
-    }
-
-    if (Key.isDown(Key.SPACE)){
-        if (snakes_alive < 2){
-            startGame();
-        }
-    }
-
-    if (snakes_alive > 1){
-        for (var i=0; i<snakes.length; i++){
-            var snake = snakes[i];
-            snake.move();
-        };
-    }
-
-};
-
-var drawGame = function(){
-    for (var i=0; i<snakes.length; i++){
-        snakes[i].draw(ctx)
-    };
-    $("#score1").html(players[0].score);
-    $("#score2").html(players[1].score);
-    if (players.length > 2)
-        $("#score3").html(players[2].score);
-    if (players.length > 3)
-        $("#score4").html(players[3].score);
-};
-
-var mainloop = function() {
-    updateGame();
-    drawGame();
-};
-
+preparePlayers();
 window.addEventListener('keyup', function(event){Key.onKeyup(event);}, false);
 window.addEventListener('keydown', function(event){Key.onKeydown(event);}, false);
 
@@ -196,14 +85,14 @@ var startAnimation = function(){
     }
 };
 
-startAnimation();
 
 var startGame = function(){
     clearCanvas();
-    prepareGameState();
+    prepareSnakes();
 }
 
 $(document).ready(function() {
+    startAnimation();
     startGame();
 });
 </script>
