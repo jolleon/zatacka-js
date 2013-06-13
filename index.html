@@ -14,50 +14,60 @@
         }
     </style>
 <body>
-    <div style="float:right; border: solid 3px white; text-align: center">
-        <table>
-            <tr>
-                <td>Players</td>
-                <td></td>
-                <td><input type="radio" name="players" value="2"></td>
-                <td><input type="radio" name="players" value="3"></td>
-                <td><input type="radio" name="players" value="4"></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Speed</td>
-                <td><input type="radio" name="speed" value="1"></td>
-                <td><input type="radio" name="speed" value="2"></td>
-                <td><input type="radio" name="speed" value="3"></td>
-                <td><input type="radio" name="speed" value="4"></td>
-                <td><input type="radio" name="speed" value="5"></td>
-                <td><input type="radio" name="speed" value="6"></td>
-                <td><input type="radio" name="speed" value="7"></td>
-                <td><input type="radio" name="speed" value="8"></td>
-            </tr>
-            <tr>
-                <td>Size</td>
-                <td><input type="radio" name="size" value="1"></td>
-                <td><input type="radio" name="size" value="2"></td>
-                <td><input type="radio" name="size" value="3"></td>
-                <td><input type="radio" name="size" value="4"></td>
-                <td><input type="radio" name="size" value="5"></td>
-                <td><input type="radio" name="size" value="6"></td>
-                <td><input type="radio" name="size" value="7"></td>
-                <td><input type="radio" name="size" value="8"></td>
-            </tr>
-            <tr>
-                <td>Rotation</td>
-                <td><input type="radio" name="rotation" value="1"></td>
-                <td><input type="radio" name="rotation" value="2"></td>
-                <td><input type="radio" name="rotation" value="3"></td>
-                <td><input type="radio" name="rotation" value="4"></td>
-                <td><input type="radio" name="rotation" value="5"></td>
-                <td><input type="radio" name="rotation" value="6"></td>
-                <td><input type="radio" name="rotation" value="7"></td>
-                <td><input type="radio" name="rotation" value="8"></td>
-            </tr>
-        </table>
+    <div style="float:right;">
+        <div style="border: solid 3px white; text-align: center; margin: 5px;">
+            <table>
+                <tr>
+                    <td>Players</td>
+                    <td></td>
+                    <td><input type="radio" name="players" value="2"></td>
+                    <td><input type="radio" name="players" value="3"></td>
+                    <td><input type="radio" name="players" value="4"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Speed</td>
+                    <td><input type="radio" name="speed" value="1"></td>
+                    <td><input type="radio" name="speed" value="2"></td>
+                    <td><input type="radio" name="speed" value="3"></td>
+                    <td><input type="radio" name="speed" value="4"></td>
+                    <td><input type="radio" name="speed" value="5"></td>
+                    <td><input type="radio" name="speed" value="6"></td>
+                    <td><input type="radio" name="speed" value="7"></td>
+                    <td><input type="radio" name="speed" value="8"></td>
+                </tr>
+                <tr>
+                    <td>Size</td>
+                    <td><input type="radio" name="size" value="1"></td>
+                    <td><input type="radio" name="size" value="2"></td>
+                    <td><input type="radio" name="size" value="3"></td>
+                    <td><input type="radio" name="size" value="4"></td>
+                    <td><input type="radio" name="size" value="5"></td>
+                    <td><input type="radio" name="size" value="6"></td>
+                    <td><input type="radio" name="size" value="7"></td>
+                    <td><input type="radio" name="size" value="8"></td>
+                </tr>
+                <tr>
+                    <td>Rotation</td>
+                    <td><input type="radio" name="rotation" value="1"></td>
+                    <td><input type="radio" name="rotation" value="2"></td>
+                    <td><input type="radio" name="rotation" value="3"></td>
+                    <td><input type="radio" name="rotation" value="4"></td>
+                    <td><input type="radio" name="rotation" value="5"></td>
+                    <td><input type="radio" name="rotation" value="6"></td>
+                    <td><input type="radio" name="rotation" value="7"></td>
+                    <td><input type="radio" name="rotation" value="8"></td>
+                </tr>
+            </table>
+        </div>
+        <div style="border: solid 3px white; text-align: center; margin: 5px;">
+            <table>
+                <tr><td>Player1</td><td></td><td id="left1"></td><td id="right1"></td></tr>
+                <tr><td>Player2</td><td></td><td id="left2"></td><td id="right2"></td></tr>
+                <tr><td>Player3</td><td></td><td id="left3"></td><td id="right3"></td></tr>
+                <tr><td>Player4</td><td></td><td id="left4"></td><td id="right4"></td></tr>
+            </table>
+        </div>
     </div>
     <div id="content">
         <div style="width: 1000px;">
@@ -78,6 +88,7 @@
 
 <script type="text/javascript" src="jquery-2.0.2.js"></script>
 <script type="text/javascript" src="snake.js"></script>
+<script type="text/javascript" src="keycodes.js"></script>
 <script type="text/javascript" src="zatacka.js"></script>
 
 <script type="text/javascript">
@@ -143,7 +154,7 @@ var startGame = function(){
 
 $(document).ready(function() {
     startAnimation();
-    Config.updateControls();
+    Config.updateConfigControls();
     preparePlayers();
 });
 </script>

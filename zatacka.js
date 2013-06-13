@@ -55,9 +55,13 @@ var Config = {
         }
     },
 
-    updateControls: function(){
+    updateConfigControls: function(){
         for (attr in this.attrs){
             $('input[name='+attr+'][value=' + this.attrs[attr] + ']').prop('checked', true);
+        }
+        for (var i=0; i<Keys.players.length; i++){
+            $('#left'+(i+1)).html(keyCodeToString[Keys.players[i].LEFT]);
+            $('#right'+(i+1)).html(keyCodeToString[Keys.players[i].RIGHT]);
         }
     },
 
