@@ -1,0 +1,25 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: "Lucida Console";
+    text-align: center;
+}
+
+#content {
+    text-align: left;
+}
+
+.score {
+    padding: 4px;
+}
+
+.control-block {
+    border: solid 3px white;
+    text-align: center;
+    margin: 8px;
+    padding: 2px;
+}
+
+.control-panel {
+    float: right;
+}

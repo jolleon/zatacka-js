@@ -1,21 +1,37 @@
 <head>
-    <style type="text/css">
-        body {
-            background-color: black;
-            color: white;
-            font-family: "Lucida Console";
-            text-align: center;
-        }
-        #content {
-            text-align: left;
-        }
-        div {
-            padding: 2px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 <body>
-    <div style="float:right;">
-        <div style="border: solid 3px white; text-align: center; margin: 5px;">
+    <!--
+                      __,__
+             .--.  .-"     "-.  .--.
+            / .. \/  .-. .-.  \/ .. \
+           | |  '|  /   Y   \  |'  | |
+           | \   \  \ 0 | 0 /  /   / |       HELLO YOU WHO READ THE SOURCE
+            \ '- ,\.-"`` ``"-./, -' /        I AM MONKEY AND I CODE THIS
+             `'-' /_   ^ ^   _\ '-'`         WITH MY FEET
+             .--'|  \._ _ _./  |'--.
+           /`    \   \.-.  /   /    `\       YOU BE WARNED
+          /       '._/  |-' _.'       \
+         /          ;  /--~'   |       \     KTHXBYE
+        /        .'\|.-\--.     \       \
+       /   .'-. /.-.;\  |\|'~'-.|\       \
+       \       `-./`|_\_/ `     `\'.      \
+        '.      ;     ___)        '.`;    /
+          '-.,_ ;     ___)          \/   /
+           \   ``'------'\       \   `  /
+            '.    \       '.      |   ;/_
+          ___>     '.       \_ _ _/   ,  '--.
+        .'   '.   .-~~~~~-. /     |--'`~~-.  \
+       // / .---'/  .-~~-._/ / / /---..__.'  /
+      ((_(_/    /  /      (_(_(_(---.__    .'
+                | |     _              `~~`
+                | |     \'.
+                 \ '....' |
+                  '.,___.'
+
+    -->
+    <div class="control-panel">
+        <div class="control-block">
             <table>
                 <tr>
                     <td>Players</td>
@@ -60,8 +76,8 @@
                 </tr>
             </table>
         </div>
-        <div style="border: solid 3px white; text-align: center; margin: 5px;">
-            <table>
+        <div class="control-block">
+            <table style="text-align:center;">
                 <tr><td>Player1</td><td></td><td id="left1"></td><td id="right1"></td></tr>
                 <tr><td>Player2</td><td></td><td id="left2"></td><td id="right2"></td></tr>
                 <tr><td>Player3</td><td></td><td id="left3"></td><td id="right3"></td></tr>
@@ -71,15 +87,15 @@
     </div>
     <div id="content">
         <div style="width: 1000px;">
-            <div id="score3" style="float: right;"></div>
-            <div id="score1"></div>
+            <div id="score3" class="score" style="float: right;"></div>
+            <div id="score1" class="score"></div>
         </div>
-        <canvas id="main" width=1000 height=700 style="border: solid 1px black;">
+        <canvas id="main" width=1000 height=700>
         Your browser sucks.
         </canvas>
         <div style="width: 1000px;">
-            <div id="score2" style="float: right;"></div>
-            <div id="score4"></div>
+            <div id="score2" class="score" style="float: right;"></div>
+            <div id="score4" class="score"></div>
         </div>
     </div>
 
@@ -144,9 +160,8 @@ var startAnimation = function(){
 
 var startGame = function(){
     clearCanvas();
-    n_players = Config.get('players');
     Config.readConfig();
-    if (Config.get('players') !== n_players){
+    if (Config.get('players') !== players.length){
         preparePlayers();
     }
     prepareSnakes();
@@ -155,6 +170,8 @@ var startGame = function(){
 $(document).ready(function() {
     startAnimation();
     Config.updateConfigControls();
-    preparePlayers();
+    ctx.fillStyle = '#FFF';
+    ctx.font = "16px Lucida Console";
+    ctx.fillText("Press [SPACE] to go to [SPACE]", 300, canvas.height / 2);
 });
 </script>
