@@ -6,6 +6,7 @@ var Key = {
   },
 
   onKeydown: function(event) {
+    konami.update(event.keyCode);
     this._pressed[event.keyCode] = true;
   },
 
@@ -13,6 +14,26 @@ var Key = {
     delete this._pressed[event.keyCode];
   }
 };
+
+var Konami = function(){
+    this.keys = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    this.state = 0;
+    this.update = function(keycode){
+        if (keycode === this.keys[this.state]){
+            this.state++;
+        }
+        else {
+            this.state = 0;
+        }
+        if (this.state === this.keys.length){
+            this.state = 0;
+            console.log("KONAMI");
+        }
+    }
+}
+
+konami = new Konami();
+
 
 var Keys = {
     players: [
