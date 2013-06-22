@@ -33,11 +33,17 @@ is_in_circle = function(x, y, a, b, r){
 }
 
 is_in_line = function(x, y, x1, y1, x2, y2){
-    if ((Math.min(x1, x2) > x) || (Math.min(y1, y2) > y)) return false;
-    if ((Math.max(x1, x2) < x) || (Math.max(y1, y2) < y)) return false;
-    if (x1 === x2){
-        return (Math.abs(x - x1) <=1);
+    if (x < Math.min(x1, x2)) return false;
+    if (x > Math.max(x1, x2)) return false;
+    if (y < Math.min(y1, y2)) return false;
+    if (y > Math.max(y1, y2)) return false;
+    // at this point (x, y) is in the box ((x1,y1), (x2,y2))
+
+    // case of a vertical line
+    if (Math.abs(x1 - x2) < 1){
+        return (Math.abs(x - (x1+x2)/2) < 1);
     }
+
     var a = (y2 - y1) / (x2 - x1);
     var b = y1 - a * x1;
     var diff = y - a * x - b;
@@ -63,11 +69,13 @@ Snake.prototype.move = function(){
 
     for(var i=0, n = pix.length / 4; i<n; i+=1){
         if (pix[4*i+3] !== 0){
-            var x = top_x + (i % check_size);
-            var y = top_y + Math.floor(i/check_size);
-            if ((is_in_circle(x, y, this.x - 0.5, this.y - 0.5, this.radius + 1) ||
+            var x = top_x + (i % check_size) + 0.5;
+            // not sure why we need this +0.5 - seems like webkit draws the
+            // circles half a pixel off or something :/
+            var y = top_y + Math.floor(i/check_size) + 0.5;
+            if ((is_in_circle(x, y, this.x, this.y, this.radius + 1) ||
                 is_in_line(x, y, this.x, this.y, this.old_x, this.old_y)) &&
-                !is_in_circle(x, y, this.old_x - 0.5, this.old_y - 0.5, this.radius + 1)) {
+                !is_in_circle(x, y, this.old_x, this.old_y, this.radius + 1)) {
                 this.dead = true;
             };
         }
