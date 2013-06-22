@@ -53,7 +53,7 @@ Snake.prototype.move = function(){
     this.y = this.old_y + this.speed * Math.sin(this.direction);
 
     // test death
-    var check_radius = this.radius + this.speed;
+    var check_radius = Math.ceil(this.radius + this.speed);
     var check_size = 2 * check_radius;
     var top_x = Math.round(this.old_x - check_radius),
         top_y = Math.round(this.old_y - check_radius);
@@ -68,7 +68,6 @@ Snake.prototype.move = function(){
             if ((is_in_circle(x, y, this.x - 0.5, this.y - 0.5, this.radius + 1) ||
                 is_in_line(x, y, this.x, this.y, this.old_x, this.old_y)) &&
                 !is_in_circle(x, y, this.old_x - 0.5, this.old_y - 0.5, this.radius + 1)) {
-                console.log([x, y, this.old_x, this.old_y, this.x, this.y, top_x, top_y]);
                 this.dead = true;
             };
         }
