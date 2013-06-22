@@ -91,7 +91,8 @@ var Config = {
             return this.get('speed') * this.attrs.rotation * Math.PI / 512;
         }
         else if (attr === 'speed'){
-            return this.attrs.speed + 0.5;
+            var s = this.attrs.speed + 2;
+            return s * s / 9;
         }
         else {
             return this.attrs[attr];
