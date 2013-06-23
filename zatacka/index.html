@@ -1,0 +1,216 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+<body>
+    <!--
+                      __,__
+             .--.  .-"     "-.  .--.
+            / .. \/  .-. .-.  \/ .. \
+           | |  '|  /   Y   \  |'  | |
+           | \   \  \ 0 | 0 /  /   / |       HELLO YOU WHO READ THE SOURCE
+            \ '- ,\.-"`` ``"-./, -' /        I AM MONKEY AND I CODE THIS
+             `'-' /_   ^ ^   _\ '-'`         WITH MY FEET
+             .--'|  \._ _ _./  |'--.
+           /`    \   \.-.  /   /    `\       YOU BE WARNED
+          /       '._/  |-' _.'       \
+         /          ;  /--~'   |       \     KTHXBYE
+        /        .'\|.-\--.     \       \
+       /   .'-. /.-.;\  |\|'~'-.|\       \
+       \       `-./`|_\_/ `     `\'.      \
+        '.      ;     ___)        '.`;    /
+          '-.,_ ;     ___)          \/   /
+           \   ``'------'\       \   `  /
+            '.    \       '.      |   ;/_
+          ___>     '.       \_ _ _/   ,  '--.
+        .'   '.   .-~~~~~-. /     |--'`~~-.  \
+       // / .---'/  .-~~-._/ / / /---..__.'  /
+      ((_(_/    /  /      (_(_(_(---.__    .'
+                | |     _              `~~`
+                | |     \'.
+                 \ '....' |
+                  '.,___.'
+
+    -->
+    <div class="control-panel">
+        <div class="control-block">
+            <table>
+                <tr>
+                    <td>Speed</td>
+                    <td><input type="radio" name="speed" value="1"></td>
+                    <td><input type="radio" name="speed" value="2"></td>
+                    <td><input type="radio" name="speed" value="3"></td>
+                    <td><input type="radio" name="speed" value="4"></td>
+                    <td><input type="radio" name="speed" value="5"></td>
+                    <td><input type="radio" name="speed" value="6"></td>
+                    <td><input type="radio" name="speed" value="7"></td>
+                    <td><input type="radio" name="speed" value="8"></td>
+                </tr>
+                <tr>
+                    <td>Size</td>
+                    <td><input type="radio" name="size" value="1"></td>
+                    <td><input type="radio" name="size" value="2"></td>
+                    <td><input type="radio" name="size" value="3"></td>
+                    <td><input type="radio" name="size" value="4"></td>
+                    <td><input type="radio" name="size" value="5"></td>
+                    <td><input type="radio" name="size" value="6"></td>
+                    <td><input type="radio" name="size" value="7"></td>
+                    <td><input type="radio" name="size" value="8"></td>
+                </tr>
+                <tr>
+                    <td>Rotation</td>
+                    <td><input type="radio" name="rotation" value="1"></td>
+                    <td><input type="radio" name="rotation" value="2"></td>
+                    <td><input type="radio" name="rotation" value="3"></td>
+                    <td><input type="radio" name="rotation" value="4"></td>
+                    <td><input type="radio" name="rotation" value="5"></td>
+                    <td><input type="radio" name="rotation" value="6"></td>
+                    <td><input type="radio" name="rotation" value="7"></td>
+                    <td><input type="radio" name="rotation" value="8"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            Size
+            <select id="width">
+                <option value="1200">1200</option>
+                <option value="1000" selected>1000</option>
+                <option value="800">800</option>
+                <option value="600">600</option>
+            </select>
+            x
+            <select id="height">
+                <option value="1000">1000</option>
+                <option value="800">800</option>
+                <option value="700" selected>700</option>
+                <option value="600">600</option>
+                <option value="400">400</option>
+            </select>
+        </div>
+        <div class="control-block">
+            <table>
+                <tr>
+                    <td>Players</td>
+                    <td></td>
+                    <td><input type="radio" name="players" value="2"></td>
+                    <td><input type="radio" name="players" value="3"></td>
+                    <td><input type="radio" name="players" value="4"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table id="keys" style="text-align:center;">
+                <tr><td>Player1</td>
+                    <td id="left1"></td>
+                    <td id="right1"></td>
+                </tr>
+                <tr><td>Player2</td>
+                    <td id="left2"></td>
+                    <td id="right2"></td>
+                </tr>
+                <tr><td>Player3</td>
+                    <td id="left3"></td>
+                    <td id="right3"></td>
+                </tr>
+                <tr><td>Player4</td>
+                    <td id="left4"></td>
+                    <td id="right4"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="content">
+        <div class="score-container" style="width: 1000px;">
+            <div id="score3" class="score" style="float: right;"></div>
+            <div id="score1" class="score"></div>
+        </div>
+        <canvas id="main" width=1000 height=700>
+        Your browser sucks.
+        </canvas>
+        <div class="score-container" style="width: 1000px;">
+            <div id="score2" class="score" style="float: right;"></div>
+            <div id="score4" class="score"></div>
+        </div>
+    </div>
+
+
+</body>
+
+<script type="text/javascript" src="jquery-2.0.2.js"></script>
+<script type="text/javascript" src="snake.js"></script>
+<script type="text/javascript" src="keycodes.js"></script>
+<script type="text/javascript" src="zatacka.js"></script>
+
+<script type="text/javascript">
+
+
+var canvas = $('#main').get(0);
+var ctx = canvas.getContext("2d");
+
+var clearCanvas = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "#fff";
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(0,0);
+    ctx.lineTo(0, canvas.height);
+    ctx.lineTo(canvas.width, canvas.height);
+    ctx.lineTo(canvas.width, 0);
+    ctx.closePath();
+    ctx.stroke();
+}
+
+var resizeCanvas = function(w, h){
+    canvas.width = parseInt($('#width option:selected').val());
+    canvas.height = parseInt($('#height option:selected').val());
+    $('.score-container').attr('style', 'width: ' + canvas.width + 'px');
+}
+
+var players = [];
+var snakes;
+var snakes_alive = 0;
+var snake_died = 0;
+
+window.addEventListener('keyup', function(event){Key.onKeyup(event);}, false);
+window.addEventListener('keydown', function(event){Key.onKeydown(event);}, false);
+
+var startAnimation = function(){
+    var requestAnimFrame = window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            window.oRequestAnimationFrame      ||
+            window.msRequestAnimationFrame     ||
+            null ;
+
+    if ( requestAnimFrame !== null ) {
+
+        var recursiveAnim = function() {
+            mainloop();
+            requestAnimFrame( recursiveAnim, canvas );
+        };
+
+        // start the mainloop
+        requestAnimFrame( recursiveAnim, canvas );
+    } else {
+        var ONE_FRAME_TIME = 1000.0 / 60.0 ;
+        setInterval( mainloop, ONE_FRAME_TIME );
+    }
+};
+
+
+var startGame = function(){
+    Config.readConfig();
+    resizeCanvas();
+    clearCanvas();
+    if (Config.get('players') !== players.length){
+        preparePlayers();
+    }
+    prepareSnakes();
+}
+
+$(document).ready(function() {
+    startAnimation();
+    Config.updateConfigControls();
+    ctx.fillStyle = '#FFF';
+    ctx.font = "16px Lucida Console";
+    ctx.fillText("Press [SPACE] to go to [SPACE]", 300, canvas.height / 2);
+});
+</script>
