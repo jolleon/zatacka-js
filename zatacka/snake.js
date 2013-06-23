@@ -51,13 +51,21 @@ is_in_line = function(x, y, x1, y1, x2, y2){
     return (Math.abs(diff) <= 1);
 }
 
+Snake.prototype.nextX = function(speed){
+    return this.old_x + speed * Math.cos(this.direction);
+}
+
+Snake.prototype.nextY = function(speed){
+    return this.old_y + speed * Math.sin(this.direction);
+}
+
 Snake.prototype.move = function(){
     if (this.dead) return;
 
     this.old_x = this.x;
     this.old_y = this.y;
-    this.x = this.old_x + this.speed * Math.cos(this.direction);
-    this.y = this.old_y + this.speed * Math.sin(this.direction);
+    this.x = this.nextX(this.speed);
+    this.y = this.nextY(this.speed);
 
     // test death
     var check_radius = Math.ceil(this.radius + this.speed);
