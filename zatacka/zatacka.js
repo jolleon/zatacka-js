@@ -109,12 +109,14 @@ var preparePlayers = function(){
 
 var prepareSnakes = function() {
     snakes = [];
+    var colors = ["#f00", "#ff0", "#0f0", "#b0f", "#f80", "#0ff"];
     for(var i=0; i<players.length; i++){
         snakes.push(new Snake());
         snakes[i].radius = Config.get('size');
         snakes[i].diameter = snakes[i].radius * 2;
         snakes[i].speed = Config.get('speed');
         snakes[i].rotation_speed = Config.get('rotation');
+        snakes[i].color = colors[i];
     }
     snakes_alive = snakes.length;
 

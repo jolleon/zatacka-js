@@ -9,14 +9,15 @@ Snake = function(){
     this.direction = 0;
     this.dead = false;
     this.rotation_speed = Math.PI / 64;
+    this.color = "#f00";
 };
 
 Snake.prototype.draw = function(ctx){
     if (this.dead){
-        ctx.strokeStyle = "#f00";
+        ctx.strokeStyle = "#fff";
     }
     else {
-        ctx.strokeStyle = "#fff";
+        ctx.strokeStyle = this.color;
     };
     ctx.lineWidth = this.diameter;
     ctx.lineCap = 'round'; // square, butt(default)
