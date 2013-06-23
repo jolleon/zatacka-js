@@ -93,42 +93,48 @@
                     <td><input type="radio" name="players" value="2"></td>
                     <td><input type="radio" name="players" value="3"></td>
                     <td><input type="radio" name="players" value="4"></td>
+                    <td><input type="radio" name="players" value="5"></td>
+                    <td><input type="radio" name="players" value="6"></td>
                     <td></td>
                     <td></td>
                 </tr>
             </table>
             <table id="keys" style="text-align:center;">
-                <tr><td>Player1</td>
+                <tr style="color: #f00;">
                     <td id="left1"></td>
                     <td id="right1"></td>
                 </tr>
-                <tr><td>Player2</td>
+                <tr style="color: #ff0;">
                     <td id="left2"></td>
                     <td id="right2"></td>
                 </tr>
-                <tr><td>Player3</td>
+                <tr style="color: #0f0;">
                     <td id="left3"></td>
                     <td id="right3"></td>
                 </tr>
-                <tr><td>Player4</td>
+                <tr style="color: #b0f;">
                     <td id="left4"></td>
                     <td id="right4"></td>
                 </tr>
+                <tr style="color: #f80;">
+                    <td id="left5"></td>
+                    <td id="right5"></td>
+                </tr>
+                <tr style="color: #0ff;">
+                    <td id="left6"></td>
+                    <td id="right6"></td>
+                </tr>
             </table>
+        </div>
+        <div class="score-container">
+            <div id="score1" class="score"></div>
+            <div id="score2" class="score"></div>
         </div>
     </div>
     <div id="content">
-        <div class="score-container" style="width: 1000px;">
-            <div id="score3" class="score" style="float: right;"></div>
-            <div id="score1" class="score"></div>
-        </div>
         <canvas id="main" width=1000 height=700>
         Your browser sucks.
         </canvas>
-        <div class="score-container" style="width: 1000px;">
-            <div id="score2" class="score" style="float: right;"></div>
-            <div id="score4" class="score"></div>
-        </div>
     </div>
 
 
@@ -147,7 +153,7 @@ var ctx = canvas.getContext("2d");
 
 var clearCanvas = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "#fff";
+    ctx.strokeStyle = "#999";
     ctx.lineWidth = 10;
     ctx.beginPath();
     ctx.moveTo(0,0);
@@ -161,7 +167,6 @@ var clearCanvas = function() {
 var resizeCanvas = function(w, h){
     canvas.width = parseInt($('#width option:selected').val());
     canvas.height = parseInt($('#height option:selected').val());
-    $('.score-container').attr('style', 'width: ' + canvas.width + 'px');
 }
 
 var players = [];

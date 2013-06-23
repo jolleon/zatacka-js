@@ -50,6 +50,14 @@ var Keys = {
             RIGHT: 66, // b
         },
         {
+            LEFT: 86, // v
+            RIGHT: 66, // b
+        },
+        {
+            LEFT: 86, // v
+            RIGHT: 66, // b
+        },
+        {
             LEFT: 221, // ]
             RIGHT: 220, // \
         }
