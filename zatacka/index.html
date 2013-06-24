@@ -85,50 +85,24 @@
                 <option value="400">400</option>
             </select>
         </div>
-        <div class="control-block">
-            <table>
-                <tr>
-                    <td>Players</td>
-                    <td></td>
-                    <td><input type="radio" name="players" value="2"></td>
-                    <td><input type="radio" name="players" value="3"></td>
-                    <td><input type="radio" name="players" value="4"></td>
-                    <td><input type="radio" name="players" value="5"></td>
-                    <td><input type="radio" name="players" value="6"></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-            <table id="keys" style="text-align:center;">
-                <tr class="p1">
-                    <td id="left1"></td>
-                    <td id="right1"></td>
-                </tr>
-                <tr class="p2">
-                    <td id="left2"></td>
-                    <td id="right2"></td>
-                </tr>
-                <tr class="p3">
-                    <td id="left3"></td>
-                    <td id="right3"></td>
-                </tr>
-                <tr class="p4">
-                    <td id="left4"></td>
-                    <td id="right4"></td>
-                </tr>
-                <tr class="p5">
-                    <td id="left5"></td>
-                    <td id="right5"></td>
-                </tr>
-                <tr class="p6">
-                    <td id="left6"></td>
-                    <td id="right6"></td>
-                </tr>
-            </table>
-        </div>
+    </div>
+    <div id="players">
+        <table>
+            <tr>
+                <td>Players</td>
+                <td></td>
+                <td><input type="radio" name="players" value="2"></td>
+                <td><input type="radio" name="players" value="3"></td>
+                <td><input type="radio" name="players" value="4"></td>
+                <td><input type="radio" name="players" value="5"></td>
+                <td><input type="radio" name="players" value="6"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
     </div>
     <table>
-        <tr><td>
+        <tr><td rowspan=2>
                 <div id="content">
                     <canvas id="main" width=1000 height=700>
                     Your browser sucks.
@@ -136,6 +110,20 @@
                 </div>
             </td>
             <td>
+                <div id="controls">
+                    <table id="keys" style="text-align:center;">
+                        <tr><td class="keys p1"></td></tr>
+                        <tr><td class="keys p2"></td></tr>
+                        <tr><td class="keys p3"></td></tr>
+                        <tr><td class="keys p4"></td></tr>
+                        <tr><td class="keys p5"></td></tr>
+                        <tr><td class="keys p6"></td></tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: bottom">
                 <div class="score-container">
                     <div id="score1" class="score p1"></div>
                     <div id="score2" class="score p2"></div>
@@ -176,6 +164,10 @@ var clearCanvas = function() {
 var resizeCanvas = function(w, h){
     canvas.width = parseInt($('#width option:selected').val());
     canvas.height = parseInt($('#height option:selected').val());
+    var keysWidth = $('#controls').width();
+    var playersHeight = $('#players').height();
+    canvas.width = window.innerWidth - keysWidth - 10;
+    canvas.height = window.innerHeight - playersHeight - 6;
 }
 
 var players = [];

@@ -3,6 +3,7 @@ body {
     color: white;
     font-family: "Lucida Console";
     text-align: center;
+    margin: 0;
 }
 
 #content {
@@ -18,15 +19,24 @@ body {
 
 .control-panel {
     float: right;
+    display: none;
+}
+
+#controls {
+    float: right;
 }
 
 #keys td {
-    padding: 3px 20px 3px 0;
+}
+
+.score-container {
+    vertical-align: bottom;
 }
 
 .score {
     padding: 4px;
-    font-size: 24;
+    padding-left: 20px;
+    font-size: 32;
 }
 
 .p1 {
