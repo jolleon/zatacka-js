@@ -115,6 +115,34 @@ var preparePlayers = function(){
     }
 }
 
+var pickStartPosition = function(snake) {
+    var margin = 50;
+    var x, y, tooClose;
+    do {
+        x = Math.round(Math.random() * (canvas.width - 2 * margin)) + margin;
+        y = Math.round(Math.random() * (canvas.height - 2 * margin)) + margin;
+        tooClose = false;
+        for(var i=0; i < snakes.length; i++){
+            if (Math.abs(snakes[i].x - x) < margin) tooClose = true;
+            if (Math.abs(snakes[i].y - y) < margin) tooClose = true;
+        };
+    } while(tooClose);
+    snake.x = x;
+    snake.old_x = x;
+    snake.y = y;
+    snake.old_y = y;
+    var dirMargin = 50 * snake.speed;
+    do {
+        snake.direction = Math.random() * 2 * Math.PI;
+    }
+    while (
+        (snake.nextX(dirMargin) < margin) ||
+        (snake.nextX(dirMargin) > (canvas.width - margin)) ||
+        (snake.nextY(dirMargin) < margin) ||
+        (snake.nextY(dirMargin) > (canvas.height - margin))
+    );
+}
+
 var prepareSnakes = function() {
     snakes = [];
     var colors = ["#f00", "#ff0", "#0f0", "#b0f", "#f80", "#0ff"];
@@ -125,21 +153,10 @@ var prepareSnakes = function() {
         snakes[i].speed = Config.get('speed');
         snakes[i].rotation_speed = Config.get('rotation');
         snakes[i].color = colors[i];
+        pickStartPosition(snakes[i]);
     }
     snakes_alive = snakes.length;
 
-    snakes[1].x = canvas.width - 50;
-    snakes[1].y = canvas.height - 50;
-    snakes[1].direction = Math.PI;
-
-    if (players.length > 2){
-        snakes[2].x = canvas.width - 50;
-        snakes[2].direction = Math.PI;
-    }
-
-    if (players.length > 3){
-        snakes[3].y = canvas.height - 50;
-    }
 }
 
 var updateGame = function(){
