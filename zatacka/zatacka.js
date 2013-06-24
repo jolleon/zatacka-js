@@ -1,40 +1,3 @@
-var Key = {
-  _pressed: {},
-
-  isDown: function(keyCode) {
-    return this._pressed[keyCode];
-  },
-
-  onKeydown: function(event) {
-    konami.update(event.keyCode);
-    this._pressed[event.keyCode] = true;
-  },
-
-  onKeyup: function(event) {
-    delete this._pressed[event.keyCode];
-  }
-};
-
-var Konami = function(){
-    this.keys = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-    this.state = 0;
-    this.update = function(keycode){
-        if (keycode === this.keys[this.state]){
-            this.state++;
-        }
-        else {
-            this.state = 0;
-        }
-        if (this.state === this.keys.length){
-            this.state = 0;
-            console.log("KONAMI");
-        }
-    }
-}
-
-konami = new Konami();
-
-
 var Keys = {
     players: [
         {
@@ -66,6 +29,71 @@ var Keys = {
     SPACE: 32
 }
 
+var Key = {
+  _pressed: {},
+
+  changing: false,
+
+  isDown: function(keyCode) {
+    return this._pressed[keyCode];
+  },
+
+  onKeydown: function(event) {
+    var changing = this.changing;
+    if (changing !== false){
+        console.log(changing);
+        if (event.keyCode === Keys.Space){
+            // space cancels change
+            changing = false;
+            return;
+        }
+        if (changing.key === 'LEFT'){
+            changing.LEFT = event.keyCode;
+            $('.keys.p'+changing.player).html(
+                keyCodeToString[changing.LEFT] + '<>'
+            );
+            changing.key = 'RIGHT';
+        } else {
+            Keys.players[changing.player].LEFT = changing.LEFT;
+            Keys.players[changing.player].RIGHT = event.keyCode;
+            $('.keys.p'+changing.player).html(
+                keyCodeToString[Keys.players[changing.player].LEFT] + ' ' +
+                keyCodeToString[Keys.players[changing.player].RIGHT]
+            );
+            this.changing = false;
+        }
+        return;
+    }
+
+    konami.update(event.keyCode);
+    this._pressed[event.keyCode] = true;
+  },
+
+  onKeyup: function(event) {
+    delete this._pressed[event.keyCode];
+  }
+};
+
+var Konami = function(){
+    this.keys = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    this.state = 0;
+    this.update = function(keycode){
+        if (keycode === this.keys[this.state]){
+            this.state++;
+        }
+        else {
+            this.state = 0;
+        }
+        if (this.state === this.keys.length){
+            this.state = 0;
+            console.log("KONAMI");
+        }
+    }
+}
+
+konami = new Konami();
+
+
 Player = function(){
     this.score = 0;
 }
@@ -89,7 +117,7 @@ var Config = {
             $('input[name='+attr+'][value=' + this.attrs[attr] + ']').prop('checked', true);
         }
         for (var i=0; i<Keys.players.length; i++){
-            $('.keys.p'+(i+1)).html(
+            $('.keys.p'+i).html(
                 keyCodeToString[Keys.players[i].LEFT] + ' ' +
                 keyCodeToString[Keys.players[i].RIGHT]
             );
@@ -201,7 +229,7 @@ var drawGame = function(){
 
     for (var i=0; i<6; i++){
         var text = i < players.length ? players[i].score : '';
-        $("#score"+(i+1)).html(text);
+        $("#score"+i).html(text);
     }
 };
 

@@ -35,25 +35,25 @@ body {
 
 .score {
     padding: 4px;
-    padding-left: 20px;
+    padding-left: 10px;
     font-size: 32;
 }
 
-.p1 {
+.p0 {
     color: #f00;
 }
-.p2 {
+.p1 {
     color: #ff0;
 }
-.p3 {
+.p2 {
     color: #0f0;
 }
-.p4 {
+.p3 {
     color: #b0f;
 }
-.p5 {
+.p4 {
     color: #f80;
 }
-.p6 {
+.p5 {
     color: #0ff;
 }
