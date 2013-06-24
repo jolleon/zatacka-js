@@ -65,6 +65,8 @@ HoleTracker.prototype.drawHole = function(){
         this.positions[this.positions.length - 1][1]
     );
     ctx.stroke();
+    this.shouldDrawHole = false; // necessary for when snake dies while drawing
+    // a hole (otherwise hole keeps getting drawn above white tip)
 
 }
 
