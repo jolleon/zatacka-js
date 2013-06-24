@@ -194,6 +194,7 @@ var updateGame = function(){
 var drawGame = function(){
     if(snakes){
         for (var i=0; i<snakes.length; i++){
+            ctx.globalAlpha = snakes[i].holeTracker.getAlpha();
             snakes[i].draw(ctx)
         };
     }

@@ -1,3 +1,34 @@
+HoleTracker = function(snake){
+    this.holeProb = 0.01;
+    this.minSize = 3 * snake.diameter;
+    this.maxSize = 2 * this.minSize;
+    this.snake = snake;
+    this.inHole = false;
+    this.holeEndIn = 0;
+}
+
+HoleTracker.prototype.update = function(){
+    if (!this.inHole){
+        if (Math.random() < this.holeProb) {
+            this.inHole = true;
+            var holeSize = Math.random() * (this.maxSize - this.minSize) + this.minSize;
+            this.holeEndIn = Math.round(holeSize / this.snake.speed);
+        }
+    }
+
+    if (this.inHole){
+        this.holeEndIn--;
+        if (this.holeEndIn < 1){
+            this.inHole = false;
+        }
+    }
+}
+
+HoleTracker.prototype.getAlpha = function(){
+    if (this.inHole) return 0.1;
+    else return 1;
+}
+
 Snake = function(){
     this.x = 50;
     this.y = 50;
@@ -10,6 +41,7 @@ Snake = function(){
     this.dead = false;
     this.rotation_speed = Math.PI / 64;
     this.color = "#f00";
+    this.holeTracker = new HoleTracker(this);
 };
 
 Snake.prototype.draw = function(ctx){
@@ -51,6 +83,33 @@ is_in_line = function(x, y, x1, y1, x2, y2){
     return (Math.abs(diff) <= 1);
 }
 
+Snake.prototype.isDead = function(){
+    // test death
+    var check_radius = Math.ceil(this.radius + this.speed);
+    var check_size = 2 * check_radius;
+    var top_x = Math.round(this.old_x - check_radius),
+        top_y = Math.round(this.old_y - check_radius);
+    var pix = ctx.getImageData(
+            top_x, top_y,
+            check_size, check_size).data;
+
+    var dead = false;
+    for(var i=0, n = pix.length / 4; i<n; i+=1){
+        if (pix[4*i+3] === 255){
+            var x = top_x + (i % check_size) + 0.5;
+            // not sure why we need this +0.5 - seems like webkit draws the
+            // circles half a pixel off or something :/
+            var y = top_y + Math.floor(i/check_size) + 0.5;
+            if ((is_in_circle(x, y, this.x, this.y, this.radius + 1) ||
+                is_in_line(x, y, this.x, this.y, this.old_x, this.old_y)) &&
+                !is_in_circle(x, y, this.old_x, this.old_y, this.radius + 1)) {
+                dead = true;
+            };
+        }
+    }
+    return dead;
+}
+
 Snake.prototype.nextX = function(speed){
     return this.old_x + speed * Math.cos(this.direction);
 }
@@ -67,28 +126,9 @@ Snake.prototype.move = function(){
     this.x = this.nextX(this.speed);
     this.y = this.nextY(this.speed);
 
-    // test death
-    var check_radius = Math.ceil(this.radius + this.speed);
-    var check_size = 2 * check_radius;
-    var top_x = Math.round(this.old_x - check_radius),
-        top_y = Math.round(this.old_y - check_radius);
-    var pix = ctx.getImageData(
-            top_x, top_y,
-            check_size, check_size).data;
+    this.holeTracker.update();
 
-    for(var i=0, n = pix.length / 4; i<n; i+=1){
-        if (pix[4*i+3] !== 0){
-            var x = top_x + (i % check_size) + 0.5;
-            // not sure why we need this +0.5 - seems like webkit draws the
-            // circles half a pixel off or something :/
-            var y = top_y + Math.floor(i/check_size) + 0.5;
-            if ((is_in_circle(x, y, this.x, this.y, this.radius + 1) ||
-                is_in_line(x, y, this.x, this.y, this.old_x, this.old_y)) &&
-                !is_in_circle(x, y, this.old_x, this.old_y, this.radius + 1)) {
-                this.dead = true;
-            };
-        }
-    }
+    this.dead = this.isDead();
     if (this.dead){
         snakes_alive--;
         snake_died++;
