@@ -1,15 +1,16 @@
 HoleTracker = function(snake){
-    this.holeProb = 0.01;
     this.minSize = 3 * snake.diameter;
     this.maxSize = 2 * this.minSize;
     this.snake = snake;
     this.inHole = false;
     this.holeEndIn = 0;
+    this.noHoleCount = 0;
 }
 
 HoleTracker.prototype.update = function(){
     if (!this.inHole){
-        if (Math.random() < this.holeProb) {
+        this.noHoleCount++;
+        if (Math.random() < this.noHoleCount / 2000) {
             this.inHole = true;
             var holeSize = Math.random() * (this.maxSize - this.minSize) + this.minSize;
             this.holeEndIn = Math.round(holeSize / this.snake.speed);
@@ -20,12 +21,13 @@ HoleTracker.prototype.update = function(){
         this.holeEndIn--;
         if (this.holeEndIn < 1){
             this.inHole = false;
+            this.noHoleCount = 0;
         }
     }
 }
 
 HoleTracker.prototype.getAlpha = function(){
-    if (this.inHole) return 0.1;
+    if (this.inHole) return 0;
     else return 1;
 }
 
