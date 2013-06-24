@@ -196,7 +196,7 @@ var drawGame = function(){
         };
     }
 
-    for (var i=0; i<4; i++){
+    for (var i=0; i<6; i++){
         var text = i < players.length ? players[i].score : '';
         $("#score"+(i+1)).html(text);
     }

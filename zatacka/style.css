@@ -9,10 +9,6 @@ body {
     text-align: left;
 }
 
-.score {
-    padding: 4px;
-}
-
 .control-block {
     border: solid 3px white;
     text-align: center;
@@ -26,4 +22,28 @@ body {
 
 #keys td {
     padding: 3px 20px 3px 0;
+}
+
+.score {
+    padding: 4px;
+    font-size: 24;
+}
+
+.p1 {
+    color: #f00;
+}
+.p2 {
+    color: #ff0;
+}
+.p3 {
+    color: #0f0;
+}
+.p4 {
+    color: #b0f;
+}
+.p5 {
+    color: #f80;
+}
+.p6 {
+    color: #0ff;
 }
