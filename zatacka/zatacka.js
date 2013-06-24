@@ -1,20 +1,12 @@
 var Keys = {
     players: [
         {
-            LEFT: 81, // Q
-            RIGHT: 87 // W
+            LEFT: 9, // tab
+            RIGHT: 81 // q
         },
         {
-            LEFT: 37, // left
+            LEFT: 40, // down
             RIGHT: 39, // right
-        },
-        {
-            LEFT: 86, // v
-            RIGHT: 66, // b
-        },
-        {
-            LEFT: 86, // v
-            RIGHT: 66, // b
         },
         {
             LEFT: 86, // v
@@ -23,6 +15,14 @@ var Keys = {
         {
             LEFT: 221, // ]
             RIGHT: 220, // \
+        },
+        {
+            LEFT: 85, // u
+            RIGHT: 73, // i
+        },
+        {
+            LEFT: 90, // z
+            RIGHT: 88, // x
         }
     ],
 
