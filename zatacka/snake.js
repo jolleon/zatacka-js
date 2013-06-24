@@ -5,20 +5,26 @@ HoleTracker = function(snake){
     this.inHole = false;
     this.holeEndIn = 0;
     this.noHoleCount = 0;
+    this.positions = [];
+    this.shouldDrawHole = false;
 }
 
 HoleTracker.prototype.update = function(){
+    this.shouldDrawHole = false;
     if (!this.inHole){
         this.noHoleCount++;
-        if (Math.random() < this.noHoleCount / 2000) {
+        if (Math.random() < Math.pow(this.noHoleCount, 1.3) / 20000) {
             this.inHole = true;
             var holeSize = Math.random() * (this.maxSize - this.minSize) + this.minSize;
-            this.holeEndIn = Math.round(holeSize / this.snake.speed);
+            this.holeEndIn = Math.round(holeSize / this.snake.speed) + 1;
+            this.positions = [[this.snake.old_x, this.snake.old_y]];
         }
     }
 
     if (this.inHole){
         this.holeEndIn--;
+        this.positions.push([this.snake.x, this.snake.y]);
+        this.shouldDrawHole = true;
         if (this.holeEndIn < 1){
             this.inHole = false;
             this.noHoleCount = 0;
@@ -27,8 +33,39 @@ HoleTracker.prototype.update = function(){
 }
 
 HoleTracker.prototype.getAlpha = function(){
-    if (this.inHole) return 0;
+    if (this.inHole) return 1;
     else return 1;
+}
+
+HoleTracker.prototype.drawHole = function(){
+    console.log('drawhole');
+    console.log(this.positions);
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = this.snake.diameter + 2;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(this.positions[1][0], this.positions[1][1]);
+    for(var i=2; i<this.positions.length - 1; i++){
+        ctx.lineTo(this.positions[i][0], this.positions[i][1]);
+    }
+    ctx.stroke();
+    ctx.strokeStyle = this.snake.color;
+    ctx.lineWidth = this.snake.diameter;
+    ctx.beginPath();
+    ctx.moveTo(this.positions[0][0], this.positions[0][1]);
+    ctx.lineTo(this.positions[1][0], this.positions[1][1]);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(
+        this.positions[this.positions.length - 2][0],
+        this.positions[this.positions.length - 2][1]
+    );
+    ctx.lineTo(
+        this.positions[this.positions.length - 1][0],
+        this.positions[this.positions.length - 1][1]
+    );
+    ctx.stroke();
+
 }
 
 Snake = function(){
@@ -59,6 +96,10 @@ Snake.prototype.draw = function(ctx){
     ctx.moveTo(this.old_x, this.old_y);
     ctx.lineTo(this.x, this.y);
     ctx.stroke();
+
+    if(this.holeTracker.shouldDrawHole){
+        this.holeTracker.drawHole();
+    }
 };
 
 is_in_circle = function(x, y, a, b, r){
@@ -97,7 +138,13 @@ Snake.prototype.isDead = function(){
 
     var dead = false;
     for(var i=0, n = pix.length / 4; i<n; i+=1){
-        if (pix[4*i+3] === 255){
+        if ((pix[4*i+3] === 255) &&
+            !(
+                (pix[4*i] === 0) &&
+                (pix[4*i+1] === 0) &&
+                (pix[4*i+2] === 0)
+            )
+        ){
             var x = top_x + (i % check_size) + 0.5;
             // not sure why we need this +0.5 - seems like webkit draws the
             // circles half a pixel off or something :/
