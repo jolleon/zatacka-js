@@ -57,3 +57,7 @@ body {
 .p5 {
     color: #0ff;
 }
+
+img {
+    padding: 5px;
+}
