@@ -1,8 +1,8 @@
 var Keys = {
     players: [
         {
-            LEFT: 9, // tab
-            RIGHT: 81 // q
+            LEFT: 81, // q
+            RIGHT: 87 // w
         },
         {
             LEFT: 40, // down
