@@ -38,8 +38,6 @@ HoleTracker.prototype.getAlpha = function(){
 }
 
 HoleTracker.prototype.drawHole = function(){
-    console.log('drawhole');
-    console.log(this.positions);
     ctx.strokeStyle = 'black';
     ctx.lineWidth = this.snake.diameter + 2;
     ctx.lineCap = 'round';
