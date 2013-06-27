@@ -1,10 +1,14 @@
 HoleTracker = function(snake){
-    this.minSize = 3 * snake.diameter;
-    this.maxSize = 2 * this.minSize;
+    diameter = Config.get('size') * 2;
+    speed = Config.get('speed');
+    minSizePix = diameter + 1;
+    maxSizePix = 3 * minSizePix;
+    this.minSizeSteps = Math.ceil((minSizePix + diameter) / speed);
+    this.maxSizeSteps = Math.ceil((maxSizePix + diameter) / speed);
     this.snake = snake;
     this.inHole = false;
     this.holeEndIn = 0;
-    this.noHoleCount = 0;
+    this.noHoleCount = 50;
     this.positions = [];
     this.shouldDrawHole = false;
 }
@@ -15,20 +19,20 @@ HoleTracker.prototype.update = function(){
         this.noHoleCount++;
         if (Math.random() < Math.pow(this.noHoleCount, 1.3) / 20000) {
             this.inHole = true;
-            var holeSize = Math.random() * (this.maxSize - this.minSize) + this.minSize;
-            this.holeEndIn = Math.round(holeSize / this.snake.speed) + 1;
+            var holeSizeSteps = Math.random() * (this.maxSizeSteps - this.minSizeSteps) + this.minSizeSteps;
+            this.holeEndIn = Math.round(holeSizeSteps);
             this.positions = [[this.snake.old_x, this.snake.old_y]];
         }
     }
 
     if (this.inHole){
-        this.holeEndIn--;
         this.positions.push([this.snake.x, this.snake.y]);
         this.shouldDrawHole = true;
-        if (this.holeEndIn < 1){
+        if (this.holeEndIn < 0){
             this.inHole = false;
-            this.noHoleCount = 0;
+            this.noHoleCount = 1;
         }
+        this.holeEndIn--;
     }
 }
 
@@ -39,7 +43,8 @@ HoleTracker.prototype.getAlpha = function(){
 
 HoleTracker.prototype.drawHole = function(){
     ctx.strokeStyle = 'black';
-    ctx.lineWidth = this.snake.diameter + 2;
+    ctx.lineWidth = this.snake.diameter + 2; // TODO(maybe): for very small speeds
+    // this can cause a black line to appear just before a hole
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(this.positions[1][0], this.positions[1][1]);
