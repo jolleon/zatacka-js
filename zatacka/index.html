@@ -148,7 +148,6 @@
 
 <script type="text/javascript">
 
-
 var canvas = $('#main').get(0);
 var ctx = canvas.getContext("2d");
 
@@ -234,11 +233,13 @@ $(document).ready(function() {
     startAnimation();
     Config.updateConfigControls();
     resizeCanvas();
-    ctx.fillStyle = '#FFF';
-    ctx.font = "16px Lucida Console";
-    ctx.fillText(
-        "Press [SPACE] to go to [SPACE]",
-        canvas.width / 2 - 15 * 8,
-        canvas.height / 2 - 8);
+    var introImg = new Image();
+    introImg.onload = function(){
+        ctx.drawImage(introImg,
+                Math.round((canvas.width - 547) / 2),
+                Math.round((canvas.height - 92) / 2)
+        );
+    };
+    introImg.src = "achtung-die-kurve.png";
 });
 </script>
